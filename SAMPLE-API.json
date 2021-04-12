@@ -1,0 +1,8 @@
+URI: http://localhost:8080/api/employees
+Method: POST
+Content Type : Application/json
+{
+"firstName":"Imran",
+"lastName":"Khan",
+"emailId":"imrankhhan.in3@gmail.com"
+}
