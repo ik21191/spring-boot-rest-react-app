@@ -7,6 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @author lenovo
+ *
+ */
 @Entity
 @Table(name = "employees")
 public class Employee {
@@ -15,6 +19,7 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String emailId;
+    private int age;
 
     public Employee() {
 
@@ -58,4 +63,14 @@ public class Employee {
     public void setEmailId(String emailId) {
         this.emailId = emailId;
     }
+    @Column(name = "age", nullable = false)
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+    
+    
 }
