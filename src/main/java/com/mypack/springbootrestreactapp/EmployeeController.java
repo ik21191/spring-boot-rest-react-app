@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mypack.beans.ConditionalBean;
+import com.mypack.service.DatabaseType;
 import com.mypack.spring.rest.error.EntityNotFoundException;
 
 
@@ -29,9 +31,19 @@ public class EmployeeController {
 	
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	@Autowired
+	private DatabaseType databaseType;
+	@Autowired
+	private ConditionalBean conditionalBean;
 	
 	@GetMapping("/api/employees")
     public List <Employee> getAllEmployees() {
+		if(databaseType != null) {
+			System.out.println("hasCode ::::::::::::::::::" + databaseType + "   "+ databaseType.hashCode());
+		}
+		if(conditionalBean == null) {
+			System.out.println("Object of ConditionalBean is not present in IOC container.");
+		}
 		log.info("getAllEmployees method is called.");
         return employeeRepository.findAll();
     }
