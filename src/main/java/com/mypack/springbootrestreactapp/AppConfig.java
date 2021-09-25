@@ -2,6 +2,8 @@ package com.mypack.springbootrestreactapp;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,21 +21,26 @@ import com.mypack.service.DatabaseTypeMysql;
 
 @Configuration
 public class AppConfig {
+	private static final Logger log = LoggerFactory.getLogger(AppConfig.class);
+	
 	@Bean
 	@Conditional(DatabaseTypeMysqlCondition.class)
 	public DatabaseTypeMysql getMySqlDatabase() {
+		log.info("getMySqlDatabase() called ......");
 		return new DatabaseTypeMysql();
 	}
 	
 	@Bean
 	@Conditional(DatabaseTypeMongoCondition.class)
 	public DatabaseTypeMongo getMongoDatabase() {
+		log.info("getMongoDatabase() called ......");
 		return new DatabaseTypeMongo();
 	}
 	
 	@Bean
 	@ConditionalOnProperty(name = "create.ConditionalBean", havingValue = "create", matchIfMissing = false)
 	public ConditionalBean getConditionalBean() {
+		log.info("getConditionalBean() called ......");
 		return new ConditionalBean();
 	}
 	
