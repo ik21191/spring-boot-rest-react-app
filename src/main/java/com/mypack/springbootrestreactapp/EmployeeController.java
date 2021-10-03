@@ -25,13 +25,20 @@ public class EmployeeController {
 	
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	@Autowired
+	EmployeeService employeeService;
 	
 	@GetMapping("/api/employees")
-    public List <Employee> getAllEmployees() {
+    public List <Employee> getEmployees() {
 		log.info("getAllEmployees method is called.");
-        return employeeRepository.findAll();
+		return employeeRepository.findAll();
     }
-	
+	/**Example of @PersistenceContext*/
+	@GetMapping("/api/getAllEmployees")
+    public List <EmployeeModel> getAllEmployees() {
+		log.info("getAllEmployees method is called.");
+		return employeeService.getAllEmployee();
+    }
 	@PostMapping("/api/employees")
     public Employee createEmployee(@Valid @RequestBody Employee employee) {
 		log.info("createEmployee method is called.");
