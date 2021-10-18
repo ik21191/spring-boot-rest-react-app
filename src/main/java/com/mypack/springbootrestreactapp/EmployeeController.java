@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,13 @@ public class EmployeeController {
 	@Autowired
 	private ConditionalBean conditionalBean;
 	
-	@GetMapping("/api/employees")
+	@GetMapping("/")
+    public ResponseEntity<String> getHomePage() {
+    	log.info("getHomePage() called.");
+        return ResponseEntity.ok().body("This is home page.");
+    }
+	
+	@GetMapping(value="/api/employees", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public List <Employee> getAllEmployees() {
 		if(databaseType != null) {
 			System.out.println("hasCode ::::::::::::::::::" + databaseType + "   "+ databaseType.hashCode());

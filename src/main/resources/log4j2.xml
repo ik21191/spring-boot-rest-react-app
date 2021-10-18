@@ -39,6 +39,7 @@
  
         <Root level="debug">
             <AppenderRef ref="Console" />
+            <AppenderRef ref="appLog" />
         </Root>
     </Loggers>
 </Configuration>
