@@ -1,6 +1,7 @@
 package com.mypack.spring.rest.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -8,7 +9,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mypack.beans.ConditionalBean;
@@ -33,7 +34,6 @@ import com.mypack.spring.rest.error.EntityNotFoundException;
 public class EmployeeController {
 	
 	private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
-	SecurityAutoConfiguration v = null;
 	
 	@Autowired
 	private EmployeeRepository employeeRepository;
@@ -66,10 +66,15 @@ public class EmployeeController {
         return employeeRepository.save(employee);
     }
 	
-	@GetMapping("/api/employees/{id}")
-    public ResponseEntity <com.mypack.entities.Employee> getEmployeeById(@PathVariable(value = "id") Long employeeId)
+	
+	@GetMapping("/api/employees/{id}/{name}")
+    public ResponseEntity <com.mypack.entities.Employee> getEmployeeById(@PathVariable Map<String, String> pathVariableMap,
+    		@RequestParam("queryParameter") String queryParameter)
     throws Exception {
+		Long employeeId = Long.parseLong(pathVariableMap.get("id"));
 		log.info("getEmployeeById method is called.");
+		log.info("getEmployeeById method is called, name parameter value is : " + pathVariableMap.get("name"));
+		log.info("getEmployeeById : queryParameter is : " + queryParameter);
         Employee employee = employeeRepository.findById(employeeId)
             .orElseThrow(() -> new EntityNotFoundException(employeeId.intValue()));
         return ResponseEntity.ok().body(employee);
