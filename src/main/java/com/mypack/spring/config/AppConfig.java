@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import com.mypack.beans.ConditionalBean;
 import com.mypack.beans.DatabaseTypeMongoCondition;
+import com.mypack.beans.DatabaseTypeMysqlCondition;
 import com.mypack.service.DatabaseTypeMongo;
 import com.mypack.service.DatabaseTypeMysql;
 
@@ -25,7 +26,7 @@ public class AppConfig {
 	private static final Logger log = LoggerFactory.getLogger(AppConfig.class);
 	
 	@Bean
-	@Conditional(com.mypack.beans.DatabaseTypeMysqlCondition.class)
+	@Conditional(DatabaseTypeMysqlCondition.class)
 	public DatabaseTypeMysql getMySqlDatabase() {
 		log.info("getMySqlDatabase() called ......");
 		return new DatabaseTypeMysql();
