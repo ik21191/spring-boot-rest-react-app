@@ -1,5 +1,8 @@
 package com.mypack.spring.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +18,10 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private static Logger log = LoggerFactory.getLogger(SecurityConfig.class);
+
+    @Value("${enable.security}")
+    private boolean eanableSecurity;
 	
 	/*  
 	@Bean
@@ -44,17 +51,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/api/*").hasRole("USER")
-                .antMatchers("/*actuator*").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        if(!eanableSecurity) {
+            log.info("Security is disabled in application.properties");
+        }
+        /***
+         set enable.security=true in application.properties file to enable spring security
+         */
+        if(eanableSecurity) {
+            http
+            .csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/").permitAll()
+            .antMatchers("/api/*").hasRole("USER")
+            .antMatchers("/*actuator*").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .httpBasic()
+            .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        }
     }
     
 	/**We have defined user and password in application.properties file, so below method is not required.*/
